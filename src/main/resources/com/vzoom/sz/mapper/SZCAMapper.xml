@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vzoom.sz.mapper.SZCAMapper">
+
+    <resultMap id="BaseResultMap" type="com.vzoom.sz.bean.SZCAInfo" >
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="NSRSBH" property="nsrsbh" jdbcType="VARCHAR" />
+        <result column="PRIVATE_KEY" property="publicKey" jdbcType="VARCHAR" />
+        <result column="SIGN" property="sign" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="creatTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    
+    <!--根据ID查下证书签名-->
+    <select id="selectCAInfoById" resultMap="BaseResultMap" parameterType="int">
+      select * from AUTH_SIGN where id=#{id}
+    </select>
+
+    <!--添加证书签名-->
+    <insert id="insertCAInfo" parameterType="SZCAInfo" >
+          insert into
+          AUTH_SIGN(ID,NSRSBH,PRIVATE_KEY,SIGN,CREATE_TIME)
+          values (AUTH_SIGN_ID_SEQ.nextval,#{nsrsbh},#{publicKey},#{sign},sysdate)
+    </insert>
+    
+</mapper>

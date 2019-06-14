@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vzoom.sz.mapper.SZGSMapper">
+
+    <!--根据ID查下证书签名-->
+    <select id="selectSZGSInfo" resultType="SZGSInfo">
+         SELECT distinct NSRSBH,SQRQ,YXQZ,AREACODE FROM
+        (SELECT NSRSBH,to_char(SQRQ,'yyyy-MM-dd') SQRQ,YXQZ,AREACODE FROM VZOOM_SZGS_AUTHLOG_TEMP WHERE LPBM IS NULL)
+        WHERE ROWNUM &lt; 80
+    </select>
+
+    <!--添加证书签名-->
+    <insert id="updateSZGSInfo" parameterType="SZCAInfo" >
+          UPDATE VZOOM_SZGS_AUTHLOG_TEMP
+          SET CONTENT=#{content},LPBM='1'
+          WHERE NSRSBH=#{nsrsbh} AND SQRQ=to_date(#{sqrq},'yyyy-MM-dd')
+    </insert>
+</mapper>
